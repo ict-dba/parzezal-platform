@@ -1,0 +1,1 @@
+# parzezal-platform
