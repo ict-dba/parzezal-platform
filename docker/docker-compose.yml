@@ -1,7 +1,7 @@
 services:
   caddy:
     build:
-      context: ./DockerFiles
+      context: ./dockerfiles
       dockerfile: Caddy_Dockerfile
     container_name: caddy
     restart: unless-stopped
@@ -12,8 +12,8 @@ services:
       - "443:443"
       - "443:443/udp"
     volumes:
-      - ./container_config:/etc/caddy
-      - ./site:/srv commcd 
+      - ./container_config/caddy:/etc/caddy:ro
+      - ./site:/srv
       - caddy_data:/data
       - caddy_config:/config
     networks:
@@ -22,10 +22,9 @@ services:
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
-    ports:
-      - 3000:3000
+    restart: unless-stopped
     volumes:
-      - /path/to/config:/app/config 
+      - ./container_config/homepage:/app/config 
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - HOMEPAGE_ALLOWED_HOSTS=homepage.parzezal.dev,homepage.parzezal.dev:3000
@@ -36,13 +35,13 @@ services:
     image: prom/prometheus:latest
     container_name: prometheus
     ports:
-      - 3005:3005
+      - 9090:9090
     restart: unless-stopped
     volumes:
       - ./prometheus:/etc/prometheus
       - prom_data:/prometheus
     networks:
-      caddy-net
+      - caddy-net
 
 networks:
   caddy-net:
@@ -51,4 +50,4 @@ networks:
 volumes:
   caddy_data:
   caddy_config:
-  prom-data: 
+  prom_data: 
