@@ -1,0 +1,6 @@
+homepage.parzezal.dev {
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy homepage:3000
+}
