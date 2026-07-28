@@ -1,0 +1,53 @@
+services:
+  caddy:
+    build:
+      context: ./dockerfiles
+      dockerfile: Caddy_Dockerfile
+    container_name: caddy
+    restart: unless-stopped
+    environment:
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./container_config/caddy:/etc/caddy:ro
+      - ./site:/srv
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - caddy-net
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    volumes:
+      - ./container_config/homepage:/app/config 
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - HOMEPAGE_ALLOWED_HOSTS=homepage.parzezal.dev,homepage.parzezal.dev:3000
+    networks:
+      - caddy-net
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prom_data:/prometheus
+    networks:
+      - caddy-net
+
+networks:
+  caddy-net:
+    name: caddy-net
+
+volumes:
+  caddy_data:
+  caddy_config:
+  prom_data: 
