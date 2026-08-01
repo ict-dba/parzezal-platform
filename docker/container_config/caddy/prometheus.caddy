@@ -1,6 +1,12 @@
 prometheus.parzezal.dev {
+    import @localSubnets
+    
     tls {
         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
     }
-    reverse_proxy prometheus:9090
+    handle @localSubnets {
+        reverse_proxy prometheus:9090
+    }
+
+    respond "Forbidden " 403    
 }

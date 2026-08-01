@@ -6,8 +6,8 @@
 #    @localAdminOnly remote_ip 192.168.0.32
 #}
 
-#(localSubnets) {
-#	@localSubnetsOnly remote_ip private_ranges
-#}
+(localSubnets) {
+	@localSubnetsOnly remote_ip private_ranges
+}
 
 import *.caddy
