@@ -1,10 +1,10 @@
 prometheus.parzezal.dev {
-    import @localSubnets
+    import localSubnets
     
     tls {
         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
     }
-    handle @localSubnets {
+    handle localSubnets {
         reverse_proxy prometheus:9090
     }
 
