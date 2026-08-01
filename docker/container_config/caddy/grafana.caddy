@@ -1,0 +1,12 @@
+prometheus.parzezal.dev {
+    import @localSubnets
+    
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    handle @localSubnets {
+        reverse_proxy grafana:3005
+    }
+
+    respond "Forbidden " 403    
+}
