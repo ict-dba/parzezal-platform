@@ -32,7 +32,7 @@ services:
       - caddy-net
 
   prometheus:
-    commands:
+    command:
      - --storage.tsdb.retention.time=30d
      - --storage.tsdb.retention.size=5GB
     image: prom/prometheus:latest
