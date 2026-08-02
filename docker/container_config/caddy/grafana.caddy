@@ -4,7 +4,7 @@ grafana.parzezal.dev {
     tls {
         dns cloudflare {env.CLOUDFLARE_API_TOKEN}
     }
-    handle @localSubnets {
+    handle @localSubnetsOnly {
         reverse_proxy grafana:3000
     }
 
