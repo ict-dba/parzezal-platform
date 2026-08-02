@@ -40,7 +40,7 @@ services:
     container_name: prometheus
     restart: unless-stopped
     volumes:
-      - ./container_config/prometheus:/etc/prometheus:ro
+      - ./container_config/prometheus:/etc/prometheus
       - prom_data:/prometheus
     networks:
       - caddy-net
