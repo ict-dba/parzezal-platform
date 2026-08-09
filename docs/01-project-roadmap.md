@@ -71,15 +71,35 @@ Success Criteria
 
 # Phase 2 – Observability
 
-Install
+## Status: IN PROGRESS
 
-- Prometheus
-- Grafana
-- Loki
-- cAdvisor
-- Node Exporter
+### Completed ✅
 
-Monitor
+- **Prometheus** — Running, scraping self-metrics (400+ available metrics)
+- **Grafana** — Running (v11.0.0), connected to Prometheus datasource
+- **Metrics Documentation** — Comprehensive guide created with real data examples
+- **Image Versioning** — All services pinned to specific versions for reproducibility:
+  - Caddy: v1.0.0 (custom build)
+  - Homepage: v1.13.2
+  - Prometheus: v3.13.1
+  - Grafana: v11.0.0
+
+### In Progress 🔄
+
+- **Dashboards** — Grafana dashboards for key metrics (next priority)
+  - System health (Prometheus uptime, resource usage)
+  - API performance (query rates, latencies)
+  - Data storage metrics
+
+### TODO
+
+- **Node Exporter** — Monitor Raspberry Pi CPU, memory, disk, temperature
+- **Loki** — Log aggregation
+- **cAdvisor** — Docker container metrics
+- **Alert rules** — Define alerting thresholds
+- **SLO definitions** — Service level objectives
+
+### Monitor (Still To Implement)
 
 - CPU
 - Memory
@@ -89,12 +109,6 @@ Monitor
 - DNS latency
 - SSL expiration
 - Homepage availability
-
-Deliverables
-
-- Dashboards
-- Alert rules
-- SLO definitions
 
 ---
 
