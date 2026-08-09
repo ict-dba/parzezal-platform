@@ -1,0 +1,12 @@
+grafana.parzezal.dev {
+    import localSubnets
+    
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    handle @localSubnetsOnly {
+        reverse_proxy grafana:3000
+    }
+
+    respond "Forbidden " 403    
+}
