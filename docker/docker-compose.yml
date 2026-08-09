@@ -33,13 +33,14 @@ services:
 
   prometheus:
     command:
+     - --config.file=/etc/prometheus/prometheus.yml
      - --storage.tsdb.retention.time=30d
      - --storage.tsdb.retention.size=5GB
     image: prom/prometheus:latest
     container_name: prometheus
     restart: unless-stopped
     volumes:
-      - ./container_config/prometheus:/etc/prometheus:ro
+      - ./container_config/prometheus:/etc/prometheus
       - prom_data:/prometheus
     networks:
       - caddy-net
