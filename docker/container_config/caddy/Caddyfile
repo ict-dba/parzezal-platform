@@ -1,3 +1,8 @@
+
+{
+	metrics
+}
+
 #(localHost) {
 #	@localhostOnly remote_ip 127.0.0.1
 #}
@@ -5,12 +10,6 @@
 #(localAdmin) {
 #    @localAdminOnly remote_ip 192.168.0.32
 #}
-
-{
-	servers {
-		metrics
-	}
-}
 
 (localSubnets) {
 	@localSubnetsOnly remote_ip private_ranges
