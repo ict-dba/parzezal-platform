@@ -52,31 +52,31 @@ All services run via `docker-compose.yml` in the `/docker` directory. Work from 
 cd docker
 
 # Start all services
-docker-compose up -d
+docker compose up -d
 
 # Stop all services
-docker-compose down
+docker compose down
 
 # View running services
-docker-compose ps
+docker compose ps
 
 # View logs for a specific service
-docker-compose logs -f caddy
-docker-compose logs -f prometheus
-docker-compose logs -f homepage
+docker compose logs -f caddy
+docker compose logs -f prometheus
+docker compose logs -f homepage
 
 # Restart a service
-docker-compose restart prometheus
+docker compose restart prometheus
 
 # Rebuild a service (e.g., Caddy with new plugins)
-docker-compose up -d --build caddy
+docker compose up -d --build caddy
 ```
 
 ### Configuration & Inspection
 
 ```bash
 # Verify compose file is valid
-docker-compose config
+docker compose config
 
 # Inspect a running container
 docker exec -it caddy caddy -version
@@ -140,21 +140,21 @@ This approach avoids maintaining a large custom image while extending Caddy's fu
 2. Create a configuration directory: `/docker/container_config/<service>/`
 3. Add configuration files (mount as read-only)
 4. Document the service (see below)
-5. Test locally with `docker-compose up`
+5. Test locally with `docker compose up`
 6. Update `/docs/` with service documentation
 7. Commit with a descriptive message
 
 ### Modifying Caddy Configuration
 
 1. Edit `/docker/container_config/caddy/Caddyfile`
-2. Test with: `docker-compose exec caddy caddy reload`
-3. If reload fails, restart the container: `docker-compose restart caddy`
+2. Test with: `docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile` (the `--config` flag is required — without it, `caddy reload` looks for a Caddyfile in the exec'd shell's working directory, not `/etc/caddy/`, and fails with `no config file to load`)
+3. If reload fails, restart the container: `docker compose restart caddy`
 4. Verify routing: access the service URL
 
 ### Prometheus Configuration
 
 1. Edit `/docker/container_config/prometheus/prometheus.yml`
-2. Reload without restart: `docker-compose exec prometheus kill -HUP 1`
+2. Reload without restart: `docker compose exec prometheus kill -HUP 1`
 3. Verify in Prometheus UI (if exposed)
 
 ## Documentation Standards

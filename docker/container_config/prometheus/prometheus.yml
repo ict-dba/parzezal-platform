@@ -23,10 +23,20 @@ global:
 
 scrape_configs:
   - job_name: prometheus
- #   scrape_failure_log_file: fail_prom.log
-
     static_configs:
       - targets: ["localhost:9090"]
         labels:
-          machine: pi_5
+          machine: prometheus_container
+          owner: parzezal
+  - job_name: grafana
+    static_configs: 
+      - targets: ["grafana:3000"]
+        labels:
+          machine: grafana_container
+          owner: parzezal
+  - job_name: caddy
+    static_configs:
+      - targets: ["caddy:2019"]
+        labels:        
+          machine: caddy_container
           owner: parzezal
