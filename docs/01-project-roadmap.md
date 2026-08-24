@@ -77,6 +77,9 @@ Success Criteria
 
 - **Prometheus** — Running, scraping self-metrics (400+ available metrics)
 - **Grafana** — Running (v11.0.0), connected to Prometheus datasource
+- **Grafana metrics scraped** — Prometheus job `grafana` targeting `grafana:3000/metrics`, per-job `sample_limit: 6000` (Grafana's default `[metrics] enabled` is `true`, no config change needed)
+- **Caddy metrics scraped** — exposed via a dedicated `metrics.parzezal.dev` site block (Caddyfile `metrics` directive, restricted to `@localSubnetsOnly`) rather than the admin API port, so nothing beyond a `/metrics` route is exposed; scraped over HTTPS with a proper Cloudflare DNS-01 cert
+- **Internal DNS resolution for containers** — Prometheus container's `dns:` set to Technitium (`192.168.0.2`) in docker-compose.yml so it can resolve `*.parzezal.dev` hostnames in addition to Docker's built-in container-name resolution
 - **Metrics Documentation** — Comprehensive guide created with real data examples
 - **Image Versioning** — All services pinned to specific versions for reproducibility:
   - Caddy: v1.0.0 (custom build)
@@ -94,6 +97,7 @@ Success Criteria
 ### TODO
 
 - **Node Exporter** — Monitor Raspberry Pi CPU, memory, disk, temperature
+- **Blackbox Exporter** — External black-box probes (HTTP/TCP), covers SSL cert expiration and per-service availability; follows Node Exporter
 - **Loki** — Log aggregation
 - **cAdvisor** — Docker container metrics
 - **Alert rules** — Define alerting thresholds

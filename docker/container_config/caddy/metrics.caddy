@@ -1,0 +1,12 @@
+metrics.parzezal.dev {
+	import localSubnets
+
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+
+	handle @localSubnetsOnly {
+		metrics /metrics
+	}
+	respond "Forbidden" 403
+}
