@@ -29,15 +29,16 @@ scrape_configs:
           machine: prometheus_container
           owner: parzezal
   - job_name: grafana
+    sample_limit: 6000
     static_configs:
-      sample_limit: 6000 
       - targets: ["grafana:3000"]
         labels:
           machine: grafana_container
           owner: parzezal
   - job_name: caddy
+    scheme: https
     static_configs:
-      - targets: ["metrics.parzezal.dev:2019"]
-        labels:        
+      - targets: ["metrics.parzezal.dev:443"]
+        labels:
           machine: caddy_container
           owner: parzezal
