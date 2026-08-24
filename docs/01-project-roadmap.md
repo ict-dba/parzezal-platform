@@ -94,6 +94,7 @@ Success Criteria
 ### TODO
 
 - **Node Exporter** — Monitor Raspberry Pi CPU, memory, disk, temperature
+- **Blackbox Exporter** — External black-box probes (HTTP/TCP), covers SSL cert expiration and per-service availability; follows Node Exporter
 - **Loki** — Log aggregation
 - **cAdvisor** — Docker container metrics
 - **Alert rules** — Define alerting thresholds

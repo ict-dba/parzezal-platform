@@ -36,6 +36,8 @@ services:
       - caddy-net
 
   prometheus:
+    dns:
+      - 192.168.0.2
     command:
      - --config.file=/etc/prometheus/prometheus.yml
      - --storage.tsdb.retention.time=30d
