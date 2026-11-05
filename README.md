@@ -36,7 +36,7 @@ While **inspired by production practices**, configurations are intentionally des
 
 ✅ **Production-Inspired** — Reverse proxy, HTTPS, network isolation, read-only configs
 
-✅ **Observable** — 400+ Prometheus metrics, Grafana dashboards, comprehensive logging
+✅ **Observable** — 400+ Prometheus metrics, Grafana connected (dashboards in progress), comprehensive logging
 
 ✅ **Documented** — Every service, decision, and runbook documented
 
@@ -65,16 +65,16 @@ While **inspired by production practices**, configurations are intentionally des
 cd docker
 
 # Start all services
-docker-compose up -d
+docker compose up -d
 
 # View specific service logs
-docker-compose logs -f prometheus
+docker compose logs -f prometheus
 
 # Restart a service
-docker-compose restart grafana
+docker compose restart grafana
 
 # Validate configuration
-docker-compose config
+docker compose config
 ```
 
 ---

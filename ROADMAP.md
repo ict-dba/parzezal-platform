@@ -1,10 +1,10 @@
 Now
-- Install Prometheus via Docker compose
+- Grafana dashboards for the Compose stack (none yet)
 
 Next
 
-- Grafana
 - Node Exporter
+- Blackbox Exporter
 
 Later
 

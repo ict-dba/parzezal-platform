@@ -27,7 +27,8 @@ The platform treats the homelab as a production-quality environment while recogn
 
 **Services**:
 - Homepage (service dashboard)
-- Prometheus (metrics & monitoring, in-progress)
+- Prometheus (metrics & monitoring — scraping itself, Grafana, and Caddy)
+- Grafana (dashboards)
 
 **Domain**: parzezal.dev (managed via Cloudflare)
 
@@ -40,6 +41,13 @@ The platform treats the homelab as a production-quality environment while recogn
 - `/docs` - Engineering documentation, roadmap, learning materials
 - `/local` - Local development notes and experimental work
 - `/.github` - GitHub Actions and workflows (if any)
+
+## Related Skills
+
+When working in this repo, use:
+- `engineering:debug` for service/container issues
+- `engineering:code-review` before committing config changes
+- `engineering:architecture` when adding new services or infra decisions
 
 ## Common Commands
 
@@ -63,6 +71,7 @@ docker compose ps
 # View logs for a specific service
 docker compose logs -f caddy
 docker compose logs -f prometheus
+docker compose logs -f grafana
 docker compose logs -f homepage
 
 # Restart a service
@@ -86,6 +95,37 @@ docker exec -it prometheus /bin/prometheus --version
 docker volume ls
 ```
 
+## Guardrails
+
+Never do these without explicit approval:
+- Modify or view `.env` contents
+- Run `docker compose down` (stops live services)
+- Delete named volumes (`caddy_data`, `caddy_config`, `prom_data`)
+- Push directly to remote / force-push
+- Modify Cloudflare DNS records or SSL settings
+
+Claude may freely: edit configs under `container_config/`, run `docker compose config`, read logs, propose (not apply) compose changes.
+
+## Validation
+
+Claude does not have access to the live Raspberry Pi. Validation is split:
+
+### Static validation (Claude can run directly)
+- `docker compose config` — verify compose file syntax and variable resolution
+- Lint Caddyfile / Prometheus YAML if a linter is available locally
+- Review diffs for consistency with existing patterns (naming, volume mounts, network config)
+
+### Live validation (user executes, reports back)
+Claude should output a checklist of what to verify on the Pi, e.g.:
+- [ ] `docker compose up -d --build <service>` completes without error
+- [ ] `docker compose ps` shows service healthy/running
+- [ ] `docker compose logs -f <service>` shows no errors on startup
+- [ ] Service reachable at expected URL/port
+- [ ] (Caddy) `caddy reload --config /etc/caddy/Caddyfile` succeeds
+- [ ] (Prometheus) target shows as UP in Prometheus UI
+
+User runs these and pastes results back. Claude should not assume success without confirmation.
+
 ## Architecture & Concepts
 
 ### Service Networking
@@ -97,6 +137,12 @@ All services communicate via the `caddy-net` Docker network. This isolates the p
 - Routes requests to internal services
 - Manages HTTPS certificates via Cloudflare
 - Configuration: `/docker/container_config/caddy/Caddyfile`
+
+### Grafana
+
+Provides dashboards and visualization on top of Prometheus metrics.
+- Connects to Prometheus as a data source (internal `caddy-net` network)
+- Exposed externally via Caddy reverse proxy, similar to Prometheus
 
 ### Configuration Management
 
@@ -186,10 +232,9 @@ See `/docs/03-documentation-guide.md` for detailed standards.
 
 ### Prometheus & Monitoring
 
-Current focus (see `ROADMAP.md`):
-- Installing Prometheus for metrics collection
-- Next: Node Exporter, Grafana dashboards
-- Goal: Complete observability across all services
+Current state: Prometheus deployed, scraping itself, Grafana, and Caddy.
+Next: Node Exporter, additional service dashboards in Grafana.
+Goal: Complete observability across all services.
 
 ### Backup & Recovery
 
