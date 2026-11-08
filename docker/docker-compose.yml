@@ -6,7 +6,7 @@ services:
       labels:
         version: "1.0.0"
         description: "Caddy with Cloudflare DNS plugin"
-    image: caddy-custom:1.0.0    
+    image: caddy-custom:1.0.0
     container_name: caddy
     restart: unless-stopped
     environment:
@@ -28,7 +28,7 @@ services:
     container_name: homepage
     restart: unless-stopped
     volumes:
-      - ./container_config/homepage:/app/config 
+      - ./container_config/homepage:/app/config
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - HOMEPAGE_ALLOWED_HOSTS=homepage.parzezal.dev,homepage.parzezal.dev:3000
@@ -39,10 +39,10 @@ services:
     dns:
       - 192.168.0.2
     command:
-     - --config.file=/etc/prometheus/prometheus.yml
-     - --storage.tsdb.retention.time=30d
-     - --storage.tsdb.retention.size=5GB
-    image: prom/prometheus:v3.13.1
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=30d
+      - --storage.tsdb.retention.size=5GB
+    image: prom/prometheus:v3.13.5
     container_name: prometheus
     restart: unless-stopped
     volumes:
@@ -52,17 +52,17 @@ services:
       - caddy-net
 
   grafana:
-    image: grafana/grafana:11.0.0
+    image: grafana/grafana:13.3.0
     container_name: grafana
     restart: unless-stopped
-    environment:
-      # - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN}
-      # - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_PASSWORD}
-      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    #environment:
+    # - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN}
+    # - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_PASSWORD}
+    # - GF_INSTALL_PLUGINS=grafana-piechart-panel
     volumes:
       - grafana_data:/var/lib/grafana
     networks:
-      - caddy-net 
+      - caddy-net
 
 networks:
   caddy-net:
@@ -72,4 +72,4 @@ volumes:
   caddy_data:
   caddy_config:
   prom_data:
-  grafana_data: 
+  grafana_data:
