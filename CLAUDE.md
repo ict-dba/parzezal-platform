@@ -233,7 +233,7 @@ See `/docs/03-documentation-guide.md` for detailed standards.
 ### Prometheus & Monitoring
 
 Current state: Prometheus deployed, scraping itself, Grafana, and Caddy.
-Next: Node Exporter, additional service dashboards in Grafana.
+Next: Phase 1 (k3s) of the workbench learning plan, then Phase 2 observability on k3s (Prometheus/Grafana migration, RED dashboard, Loki, Node Exporter). See ROADMAP.md.
 Goal: Complete observability across all services.
 
 ### Backup & Recovery
