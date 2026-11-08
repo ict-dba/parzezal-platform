@@ -14,6 +14,7 @@
 - Caddyfile: global options block moved to the top of the file (Caddy requires it to be the first block)
 - Caddyfile: replaced deprecated `servers { metrics }` with the top-level `metrics` option
 - `metrics.caddy`: added missing `tls { dns cloudflare {env.CLOUDFLARE_API_TOKEN} }` block, required for ACME DNS-01 issuance on an internal-only subdomain
+- Caddy certificate renewals failing (`grafana.parzezal.dev` expired 2026-11-07, `metrics.parzezal.dev` overdue): the Cloudflare API token was no longer valid (HTTP 403, `Invalid access token`). Replaced with an account token (DNS Read/Write and Zone Read, scoped to `parzezal.dev`, expires 2027-11-07), updated `.env`, and recreated the Caddy container; both certificates renewed. See `docs/runbooks/caddy-cloudflare-token.md`
 
 ### Changed
 - Documented `docker compose` (v2 plugin) as the correct command syntax in `CLAUDE.md`; the standalone `docker-compose` binary is not installed
